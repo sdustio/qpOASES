@@ -12,6 +12,7 @@ if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING "Build type" FORCE)
 endif(NOT CMAKE_BUILD_TYPE)
 option(QPOASES_BUILD_EXAMPLES "Build examples." OFF)
+option(QPOASES_BUILD_TESTS "Build tests." OFF)
 option(QPOASES_AVOID_LA_NAMING_CONFLICTS "If ON, avoid to re-defined symbols that conflict with Blas/Lapack provided functions." OFF)
 
 ############################################################
@@ -101,22 +102,68 @@ install(
 
 if (QPOASES_BUILD_EXAMPLES)
     # compile qpOASES examples
-    set(EXAMPLE_NAMES
-        example1
-        example1a
-        example1b
-        example2
-        example3
-        example3b
-        example4
-        example5
-        exampleLP
-        qrecipe
-        qrecipeSchur
-    )
+  set(EXAMPLE_NAMES
+    example1
+    example1a
+    example1b
+    example2
+    example3
+    example3b
+    example4
+    example5
+    exampleLP
+    qrecipe
+    qrecipeSchur
+  )
 
-    FOREACH(ELEMENT ${EXAMPLE_NAMES})
-        ADD_EXECUTABLE(${ELEMENT} examples/${ELEMENT}.cpp)
-        TARGET_LINK_LIBRARIES(${ELEMENT} qpOASES)
-    ENDFOREACH(ELEMENT ${EXAMPLE_NAMES})
+  foreach(ELEMENT ${EXAMPLE_NAMES})
+    add_executable(${ELEMENT} examples/${ELEMENT}.cpp)
+    target_link_libraries(${ELEMENT} qpOASES)
+  endforeach(ELEMENT ${EXAMPLE_NAMES})
 endif(QPOASES_BUILD_EXAMPLES)
+
+if (QPOASES_BUILD_TESTS)
+  set(TEST_NAMES
+    test_bench
+    test_matrices
+    test_matrices2
+    test_matrices3
+    test_indexlist
+    test_example1
+    test_example1a
+    test_example1b
+    test_example2
+    test_example4
+    test_example5
+    test_example6
+    test_example7
+    test_exampleLP
+    test_qrecipe
+    test_qrecipeSchur
+    test_smallSchur
+    test_infeasible1
+    test_hs268
+    test_gradientShift
+    test_runAllOqpExamples
+    test_sebastien1
+    test_vanBarelsUnboundedQP
+    test_janick1
+    test_janick2
+    test_constraintProduct1
+    test_constraintProduct2
+    test_guessedWS1
+    test_externalChol1
+    test_identitySqproblem
+  )
+
+  enable_testing()
+  find_program(MEMORYCHECK_COMMAND NAMES valgrind)
+  set(MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full")
+
+  foreach(ELEMENT ${TEST_NAMES})
+    add_executable(${ELEMENT} tests/${ELEMENT}.cpp)
+    target_link_libraries(${ELEMENT} qpOASES)
+    add_test(NAME ${ELEMENT} COMMAND ${ELEMENT})
+  endforeach(ELEMENT ${TEST_NAMES})
+
+endif(QPOASES_BUILD_TESTS)

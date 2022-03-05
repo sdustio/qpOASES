@@ -66,17 +66,17 @@ int main( int argc, char *argv[] )
 	char problem[] = "HS268";
 	returnValue returnvalue;
 
-	
+
 	/* 3) Run benchmark. */
 	fprintf(stdFile, "%-10s ", problem);
 	fflush(stdFile);
 
-	snprintf(oqpProblem, MAX_STRING_LENGTH, "../testing/cpp/data/problems/%s/", problem);
+	snprintf(oqpProblem, MAX_STRING_LENGTH, "../tests/data/problems/%s/", problem);
 	maxCPUtime = 100.0;
 	nWSR = 100;
 
 	returnvalue = runOqpBenchmark(	oqpProblem, isSparse, options,
-									nWSR, maxCPUtime, maxStationarity, maxFeasibility, maxComplementarity 
+									nWSR, maxCPUtime, maxStationarity, maxFeasibility, maxComplementarity
 									);
 
 	if(returnvalue == RET_UNABLE_TO_READ_BENCHMARK)
@@ -92,7 +92,7 @@ int main( int argc, char *argv[] )
 	printf( "feas:  %e\n", maxFeasibility     );
 	printf( "cmpl:  %e\n", maxComplementarity );
 
-	QPOASES_TEST_FOR_TOL( maxStationarity,    1e-11 );
+	QPOASES_TEST_FOR_TOL( maxStationarity,    1e-5 );
 	QPOASES_TEST_FOR_TOL( maxFeasibility,     1e-14 );
 	QPOASES_TEST_FOR_TOL( maxComplementarity, 1e-14 );
 

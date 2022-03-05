@@ -28,7 +28,7 @@
  *	\version 3.2
  *	\date 2014-2017
  *
- *	Another example for testing qpOASES using the possibility to specify 
+ *	Another example for testing qpOASES using the possibility to specify
  *	user-defined constraint product function.
  */
 
@@ -42,7 +42,7 @@
 USING_NAMESPACE_QPOASES
 
 
-/** 
+/**
  *	\brief Example illustrating the use of the \a ConstraintProduct class.
  *
  *	Example illustrating the use of the \a ConstraintProduct class.
@@ -82,7 +82,7 @@ class MpcConstraintProduct : public ConstraintProduct
 
 		/** Destructor. */
 		virtual ~MpcConstraintProduct( ) {};
-		
+
 		/** Assignment operator (flat copy). */
 		MpcConstraintProduct& operator=(	const MpcConstraintProduct& rhs
 										)
@@ -120,27 +120,27 @@ class MpcConstraintProduct : public ConstraintProduct
 		int_t nC;			/**< Number of constraints. */
 		int_t diagOffset;	/**< ... */
 		real_t* A;			/**< Pointer to full constraint matrix (typically not needed!). */
-		
+
 };
 
 
-/**	Example for qpOASES main function using the possibility to specify 
+/**	Example for qpOASES main function using the possibility to specify
  *	user-defined constraint product function. */
 int main( )
 {
 	int_t nQP, nV, nC, nEC;
 	real_t *H, *g, *A, *lb, *ub, *lbA, *ubA;
 	real_t cputime;
-	
+
 	real_t xOpt[1000];
 	real_t yOpt[1000];
 	real_t xOptCP[1000+1000];
 	real_t yOptCP[1000+1000];
-		
-	const char* path = "./cpp/data/oqp/diesel/";
+
+	const char* path = "../tests/data/oqp/diesel/";
 	int_t k = 200; //th problem
-	
-	
+
+
 	if ( readOqpDimensions(	path, nQP,nV,nC,nEC ) != SUCCESSFUL_RETURN )
 		return TEST_DATA_NOT_FOUND;
 
@@ -148,11 +148,11 @@ int main( )
 					&H,&g,&A,&lb,&ub,&lbA,&ubA,
 					0,0,0
 					);
-	
+
 	Options myOptions;
 	myOptions.setToMPC();
 	myOptions.printLevel = PL_LOW;
-	
+
 	int_t nWSR = 500;
 	cputime = 10.0;
 	QProblem qp( nV,nC );
@@ -161,8 +161,8 @@ int main( )
 	qp.getPrimalSolution( xOpt );
 	qp.getDualSolution( yOpt );
 	printf( "cputime without constraintProduct: %.3ems\n", cputime*1000.0 );
-	
-	
+
+
 	nWSR = 500;
 	cputime = 10.0;
 	MpcConstraintProduct myCP( nV,nC,1,A );
@@ -173,7 +173,7 @@ int main( )
 	qpCP.getPrimalSolution( xOptCP );
 	qpCP.getDualSolution( yOptCP );
 	printf( "cputime without constraintProduct: %.3ems\n", cputime*1000.0 );
-	
+
 	delete[] ubA;
 	delete[] lbA;
 	delete[] ub;
@@ -181,7 +181,7 @@ int main( )
 	delete[] A;
 	delete[] g;
 	delete[] H;
-	
+
 	for( int_t ii=0; ii<nV; ++ii )
 		QPOASES_TEST_FOR_NEAR( xOptCP[ii],xOpt[ii] );
 

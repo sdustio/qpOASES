@@ -28,7 +28,7 @@
  *	\version 3.2
  *	\date 2013-2017
  *
- *	Use qpOASES for solving all QP sequences of the Online QP Benchmark 
+ *	Use qpOASES for solving all QP sequences of the Online QP Benchmark
  *	Collection. In order to run it, you have to download all examples
  *	from http://www.qpOASES.org/onlineQP/.
  */
@@ -58,11 +58,11 @@ int main( )
 
 	const int_t numBenchmarks = 4; //5
 	const char *benchmarkPath[numBenchmarks];
-	benchmarkPath[0] = "../testing/cpp/data/oqp/chain80/";
-	benchmarkPath[1] = "../testing/cpp/data/oqp/chain80w/";
-	benchmarkPath[2] = "../testing/cpp/data/oqp/diesel/";
-	benchmarkPath[3] = "../testing/cpp/data/oqp/crane/";
-	//benchmarkPath[4] = "../testing/cpp/data/oqp/CDU/";
+	benchmarkPath[0] = "../tests/data/oqp/chain80/";
+	benchmarkPath[1] = "../tests/data/oqp/chain80w/";
+	benchmarkPath[2] = "../tests/data/oqp/diesel/";
+	benchmarkPath[3] = "../tests/data/oqp/crane/";
+	//benchmarkPath[4] = "../tests/data/oqp/CDU/";
 
 
 	/* 2) Run all benchmarks in a loop */
@@ -72,7 +72,7 @@ int main( )
 			useHotstarts = BT_FALSE;
 		else
 			useHotstarts = BT_TRUE;
-		
+
 		maxAllowedNWSR = 1000;
 		maxNWSR = 0.0;
 		avgNWSR = 0.0;
@@ -115,7 +115,7 @@ int main( )
 		QPOASES_TEST_FOR_TOL( maxStationarity,    1e-9  );
 		QPOASES_TEST_FOR_TOL( maxFeasibility,     2e-11 );
 		QPOASES_TEST_FOR_TOL( maxComplementarity, 2e-10 );
-		
+
 		switch( ii )
 		{
 			case 0:
@@ -167,7 +167,7 @@ int main( )
 				break;
 		}
 	}
-	
+
 	return TEST_PASSED;
 }
 

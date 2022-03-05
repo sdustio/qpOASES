@@ -37,7 +37,7 @@
 #include <stdlib.h>
 
 #include <qpOASES.hpp>
-#include "../../examples/example4CP.cpp"
+#include "../examples/example4CP.cpp"
 #include <qpOASES/UnitTesting.hpp>
 
 

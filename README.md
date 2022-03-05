@@ -5,13 +5,15 @@
 
 ### Examples:
 
-    cmake -DQPOASES_BUILD_EXAMPLES:BOOL=TRUE -H$(pwd) -B$(pwd)/build
+    cmake -DQPOASES_BUILD_EXAMPLES:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug -H$(pwd) -B$(pwd)/build
     cmake --build $(pwd)/build --target all
 
 ### Testing:
-    cmake -DQPOASES_BUILD_TESTS:BOOL=TRUE -H$(pwd) -B$(pwd)/build
+    cmake -DQPOASES_BUILD_TESTS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug -H$(pwd) -B$(pwd)/build
     cmake --build $(pwd)/build --target all
-    cd $(pwd)/build && ctest
+    cd $(pwd)/build
+    ctest
+    ctest -T memcheck
 
 ### Install:
 

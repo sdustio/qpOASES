@@ -65,7 +65,7 @@ int main( int argc, char *argv[] )
 // 	options.initialStatusBounds = ST_LOWER;
 	//options.numRegularisationSteps = 1;
 	//options.epsRegularisation = 1.0e3 * EPS;
- 	
+
 	//options.enableFlippingBounds = BT_FALSE;
 	//options.enableFlippingBounds = BT_FALSE;
 	//options.enableRamping = BT_TRUE;
@@ -99,7 +99,7 @@ int main( int argc, char *argv[] )
 	real_t expectedAvgFeasibility     = TOL;
 	real_t expectedAvgComplementarity = TOL;
 
-	
+
 	if ( argv[argc-1][0] == 'O' )
 	{
 		if ( strlen(argv[argc-1]) != 3 )
@@ -107,7 +107,7 @@ int main( int argc, char *argv[] )
 			fprintf( stdout,"ERROR (testbench): Invalid options passed!\n" );
 			return TEST_DATA_NOT_FOUND;
 		}
-		
+
 		fprintf( stdout,"Analysing passed options:  " );
 		switch ( argv[argc-1][1] )
 		{
@@ -129,7 +129,7 @@ int main( int argc, char *argv[] )
 					expectedAvgComplementarity = 5e-8;
 				}
 				break;
-				
+
 			case 'r':
 				fprintf( stdout,"reliable options, " );
 				options.setToReliable();
@@ -148,7 +148,7 @@ int main( int argc, char *argv[] )
 					expectedAvgComplementarity = 3e-7;
 				}
 				break;
-				
+
 			case 'm':
 				fprintf( stdout,"MPC options, " );
 				options.setToMPC();
@@ -167,31 +167,31 @@ int main( int argc, char *argv[] )
 					expectedAvgComplementarity = 5e-8;
 				}
 				break;
-				
+
 			default:
 				fprintf( stdout,"ERROR (testbench): Invalid options passed!\n" );
 				return TEST_DATA_NOT_FOUND;
 		}
-		
+
 		switch ( argv[argc-1][2] )
 		{
 			case 's':
 				fprintf( stdout,"sparse QP data\n" );
 				isSparse = BT_TRUE;
 				break;
-				
+
 			case 'd':
 				fprintf( stdout,"dense QP data\n" );
 				isSparse = BT_FALSE;
 				break;
-				
+
 			default:
 				fprintf( stdout,"ERROR (testbench): Invalid options passed!\n" );
 				return TEST_DATA_NOT_FOUND;
 		}
 		options.printLevel = PL_NONE;
 		//options.enableFlippingBounds = BT_FALSE;
-		
+
 		nproblems = argc-2;
 	}
 	else
@@ -199,11 +199,11 @@ int main( int argc, char *argv[] )
 		nproblems = argc-1;
 	}
 
-	
+
 	if (nproblems == 0)
 	{
 		/* 2a) Scan problem directory */
-		nproblems = scandir("../testing/cpp/data/problems", &namelist, NULL, alphasort);
+		nproblems = scandir("../tests/data/problems", &namelist, NULL, alphasort);
 		if (nproblems <= 0)
 		{
 			myPrintf( "No test problems found!\n" );
@@ -240,12 +240,12 @@ int main( int argc, char *argv[] )
 		fprintf(stdFile, "%-10s ", problem);
 		fflush(stdFile);
 
-		snprintf(oqpProblem, MAX_STRING_LENGTH, "../testing/cpp/data/problems/%s/", problem);
+		snprintf(oqpProblem, MAX_STRING_LENGTH, "../tests/data/problems/%s/", problem);
 		maxCPUtime = 300.0;
 		nWSR = 2500;
 
 		returnvalue = runOqpBenchmark(	oqpProblem, isSparse, options,
-										nWSR, maxCPUtime, maxStationarity, maxFeasibility, maxComplementarity 
+										nWSR, maxCPUtime, maxStationarity, maxFeasibility, maxComplementarity
 										);
 		if (returnvalue	== SUCCESSFUL_RETURN
 				&& maxStationarity < TOL
@@ -253,7 +253,7 @@ int main( int argc, char *argv[] )
 				&& maxComplementarity < TOL)
 		{
 			npass++;
-			
+
 			avgStationarity    += maxStationarity;
 			avgFeasibility     += maxFeasibility;
 			avgComplementarity += maxComplementarity;

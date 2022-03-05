@@ -123,6 +123,9 @@ if (QPOASES_BUILD_EXAMPLES)
 endif(QPOASES_BUILD_EXAMPLES)
 
 if (QPOASES_BUILD_TESTS)
+  find_program(MEMORYCHECK_COMMAND NAMES valgrind)
+  set(MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full")
+
   set(TEST_NAMES
     test_bench
     test_matrices
@@ -156,14 +159,17 @@ if (QPOASES_BUILD_TESTS)
     test_identitySqproblem
   )
 
+  include (CTest)
   enable_testing()
-  find_program(MEMORYCHECK_COMMAND NAMES valgrind)
-  set(MEMORYCHECK_COMMAND_OPTIONS "--trace-children=yes --leak-check=full")
-
   foreach(ELEMENT ${TEST_NAMES})
     add_executable(${ELEMENT} tests/${ELEMENT}.cpp)
     target_link_libraries(${ELEMENT} qpOASES)
     add_test(NAME ${ELEMENT} COMMAND ${ELEMENT})
   endforeach(ELEMENT ${TEST_NAMES})
+
+  # add_test(NAME test_bench_dd COMMAND test_bench Odd)
+  # add_test(NAME test_bench_ds COMMAND test_bench Ods)
+  add_test(NAME test_bench_md COMMAND test_bench Omd)
+  # add_test(NAME test_bench_rs COMMAND test_bench Ors)
 
 endif(QPOASES_BUILD_TESTS)

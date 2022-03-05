@@ -28,7 +28,7 @@
  *	\version 3.2
  *	\date 2014-2017
  *
- *	Another example for testing qpOASES using the possibility to specify 
+ *	Another example for testing qpOASES using the possibility to specify
  *	user-defined constraint product function.
  */
 
@@ -42,7 +42,7 @@
 USING_NAMESPACE_QPOASES
 
 
-/** 
+/**
  *	\brief Example illustrating the use of the \a ConstraintProduct class.
  *
  *	Example illustrating the use of the \a ConstraintProduct class.
@@ -82,7 +82,7 @@ class MpcConstraintProduct : public ConstraintProduct
 
 		/** Destructor. */
 		virtual ~MpcConstraintProduct( ) {};
-		
+
 		/** Assignment operator (flat copy). */
 		MpcConstraintProduct& operator=(	const MpcConstraintProduct& rhs
 											)
@@ -120,12 +120,12 @@ class MpcConstraintProduct : public ConstraintProduct
 		int_t nC;			/**< Number of constraints. */
 		int_t diagOffset;	/**< ... */
 		real_t* A;			/**< Pointer to full constraint matrix (typically not needed!). */
-		
+
 };
 
 
 
-/**	Example for qpOASES main function using the possibility to specify 
+/**	Example for qpOASES main function using the possibility to specify
  *	user-defined constraint product function. */
 int main( )
 {
@@ -139,19 +139,19 @@ int main( )
 	real_t yOpt[1000];
 	real_t xOptCP[1000+1000];
 	real_t yOptCP[1000+1000];
-	
-	const char* path = "./cpp/data/oqp/chain80w/";
+
+	const char* path = "../tests/data/oqp/chain80w/";
 	int_t k = 10; //th problem
-	
-		
+
+
 	if ( readOqpDimensions(	path, nQP,nV,nC,nEC ) != SUCCESSFUL_RETURN )
 		return TEST_DATA_NOT_FOUND;
-	
+
 	readOqpData(	path, nQP,nV,nC,nEC,
 					&H,&g,&A,&lb,&ub,&lbA,&ubA,
 					0,0,0
 					);
-	
+
 	Options myOptions;
 	//myOptions.setToMPC();
 	myOptions.printLevel = PL_LOW;
@@ -164,7 +164,7 @@ int main( )
 	qp.getPrimalSolution( xOpt );
 	qp.getDualSolution( yOpt );
 	printf( "cputime without constraintProduct: %.3ems\n", cputime*1000.0 );
-	
+
 
 	nWSR = 500;
 	cputime = 20.0;
@@ -176,7 +176,7 @@ int main( )
 	qpCP.getPrimalSolution( xOptCP );
 	qpCP.getDualSolution( yOptCP );
 	printf( "cputime with    constraintProduct: %.3ems\n", cputime*1000.0 );
-	
+
 	delete[] ubA;
 	delete[] lbA;
 	delete[] ub;
